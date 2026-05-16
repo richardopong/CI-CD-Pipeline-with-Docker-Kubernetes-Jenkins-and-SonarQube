@@ -16,7 +16,7 @@ pipeline {
         stage('Build Java Application') {
             steps {
                 script {
-                    docker.image('openjdk:17').inside {
+                    docker.image('maven:3.9-eclipse-temurin-17').inside {
                         sh 'java -version'
                         sh './mvnw clean package -DskipTests || mvn clean package -DskipTests'
                     }
@@ -27,7 +27,7 @@ pipeline {
         stage('Run Unit Tests') {
             steps {
                 script {
-                    docker.image('openjdk:11').inside {
+                    docker.image('maven:3.9-eclipse-temurin-11').inside {
                         sh 'java -version'
                         sh './mvnw test || mvn test'
                     }
@@ -38,7 +38,7 @@ pipeline {
         stage('Static Code Analysis') {
             steps {
                 script {
-                    docker.image('openjdk:8').inside {
+                    docker.image('maven:3.8.8-eclipse-temurin-8').inside {
                         sh 'java -version'
                         sh 'mvn sonar:sonar -Dsonar.host.url=$SONARQUBE_SERVER'
                     }
